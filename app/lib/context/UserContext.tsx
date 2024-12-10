@@ -26,7 +26,7 @@ type ContextType = {
     logout: () => void;
     authStatusCheck: () => boolean;
 
-    cart: Array<UserCart>;
+    cart: userCart;
     cartProductsWhitQuantity: Array<ProductWithQuantityType>
 
     addToCart: (productId: number)=> void
@@ -34,10 +34,13 @@ type ContextType = {
     updateCartItemQuantity: (productId: number,quantity: number)=> void
 }
 
-export type CartItem = {
-    productId: number;
-    quantity: number;
-};
+export type userCart = (UserCart | {
+    userId: string;
+    products: {
+        quantity: number;
+        productId: number;
+    }[];
+})[];
 
 const UserContext = createContext<ContextType | null>(null)
 
@@ -45,7 +48,7 @@ export function AuthProvider({children}: Props) {
 
     const [cookies, setCookie, removeCookie] = useCookies(['UserId']);
     const [user, setUser] = useState<string | null>(null);
-    const [cart, setCart] = useState<Array<UserCart>>([])
+    const [cart, setCart] = useState<userCart>([])
     const [cartProductsWhitQuantity, setCartProductsWhitQuantity] = useState<Array<ProductWithQuantityType>>([])
 
     useEffect(() => {
