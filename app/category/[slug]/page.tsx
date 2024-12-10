@@ -5,13 +5,14 @@ import {BackBtn} from "@/app/ui/btn/BackBtn";
 
 type Props = {
     params: Promise<{
-        slug: string
+        id: string
     }>
-}
+};
 
 export default async function Page(props: Props) {
 
-    const { slug } =await props.params;
+    const params = await props.params
+    const slug = params.id // Access id directly from params
 
     return (
         <>
